@@ -44,7 +44,7 @@ namespace VendingMachine
                 // pay for the soda
                 while (!vendingMachine.IsAmountSufficient())
                 {
-                    Console.Write($"Please insert {vendingMachine.Price} cents (enter 'q' to quit): ");
+                    Console.Write($"Please insert {vendingMachine.Price} cents (type 'q' to quit): ");
                     try
                     {
                         vendingMachine.GetEnteredAmount(Console.ReadLine());
@@ -80,7 +80,7 @@ namespace VendingMachine
                         // Restock the selected soda
                         if (resp.Key == ConsoleKey.Y)
                         {
-                            vendingMachine.ManageInventory(RackAction.Add, soda, 3);
+                            vendingMachine.ManageInventory(RackAction.Add, soda,vendingMachine.MaxInventory);
                             Console.WriteLine($"\nRestocked the {soda} soda...\n\n");
                         }
                         else
@@ -99,6 +99,21 @@ namespace VendingMachine
         {
             var configBuilder = new ConfigurationBuilder().AddJsonFile($"appsettings.json", true, true);
             return configBuilder;
+        }
+
+        void test(SodaFlavor s)
+        {
+      
+            switch (s)
+            {
+                case SodaFlavor.Regular:
+                    break;
+                case SodaFlavor.Orange:
+                    break;
+                case SodaFlavor.Lemon:
+                    break;
+            }
+
         }
     }
 }

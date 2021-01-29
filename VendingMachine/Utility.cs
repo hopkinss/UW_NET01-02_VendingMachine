@@ -14,7 +14,7 @@ namespace VendingMachine
             }
             catch
             {
-                return default(T);
+                return default;
             }
         }
     }

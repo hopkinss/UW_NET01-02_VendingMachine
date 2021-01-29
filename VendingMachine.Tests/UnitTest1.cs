@@ -6,7 +6,6 @@ namespace VendingMachine.Tests
     [TestClass]
     public class UnitTest1
     {
-
         [TestMethod]
         public void AddSodaConstructor()
         {
@@ -95,8 +94,5 @@ namespace VendingMachine.Tests
             vm.GetEnteredAmount("20");
             Assert.IsTrue(vm.IsAmountSufficient());
         }
-
-        
-
     }
 }

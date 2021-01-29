@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VendingMachine", "VendingMachine\VendingMachine.csproj", "{4E1A6730-2F35-4103-BC6B-70D6AB9AE686}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VendingMachine.Tests", "VendingMachine.Tests\VendingMachine.Tests.csproj", "{B369479F-7A02-4FD4-9514-62EB955CE05C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VendingMachine.Tests", "VendingMachine.Tests\VendingMachine.Tests.csproj", "{B369479F-7A02-4FD4-9514-62EB955CE05C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{4E1A6730-2F35-4103-BC6B-70D6AB9AE686} = {4E1A6730-2F35-4103-BC6B-70D6AB9AE686}
 	EndProjectSection

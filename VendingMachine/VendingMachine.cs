@@ -6,16 +6,12 @@ using System.Linq;
 
 namespace VendingMachine
 {
-    public enum SodaFlavor { Regular = 1, Orange=2, Lemon=3 }
-    public enum RackAction { Add = 1, Remove=2 }
+    public enum SodaFlavor { Regular = 1, Orange, Lemon }
+    public enum RackAction { Add = 1, Remove }
 
     public class VendingMachine
     {
-        private int price;                             // Cost of soda
-        private int amountSpent;                       // Current amount the user has inserted
-        private int maxInventory;                      // Max number of cans of soda per flavor
-        private Dictionary<SodaFlavor, int> inventory; // Inventory of soda availble in the vending machine
-        
+        private int amountSpent; // Current amount the user has inserted
 
         // Creates an instance of a full vending machine
         public VendingMachine(int initalPrice            
@@ -23,24 +19,14 @@ namespace VendingMachine
                             , RackAction action = RackAction.Add
                             , int numberOfCans = 3)
         {
-            price = initalPrice;
-            maxInventory = numberOfCans;
-            inventory = new Dictionary<SodaFlavor, int>();
+            Price = initalPrice;
+            MaxInventory = numberOfCans;
+            Inventory = new Dictionary<SodaFlavor, int>();
             ManageInventory(action,flavor,numberOfCans);
         }
 
-        public int Price
-        {
-            get => price;
-            set => price = value;
-        }
-
-        public int MaxInventory
-        {
-            get { return maxInventory; }
-            set { maxInventory = value; }
-        }
-
+        public int Price { get; set; }
+        public int MaxInventory { get; set; }
 
         public int AmountSpent
         {
@@ -51,11 +37,7 @@ namespace VendingMachine
             }
         }
 
-        public Dictionary<SodaFlavor, int> Inventory
-        {
-            get { return inventory; }
-            set { inventory = value; }
-        }
+        public Dictionary<SodaFlavor, int> Inventory { get; set; }
 
         public void ManageInventory(RackAction action,SodaFlavor flavor,int numberOfCans)
         {
@@ -67,19 +49,19 @@ namespace VendingMachine
             {
                 for (int i = 1; i <= numberOfCans; i++)
                 {
-                    if (inventory.ContainsKey(f))
+                    if (Inventory.ContainsKey(f))
                     {
                         if (action == RackAction.Add)
                         {
                             if (!IsFull(f))
-                                inventory[f] += 1;
+                                Inventory[f] += 1;
                             else
                                 throw new Exception($"{f} rack is full");
                         }
                         else
                         {
                             if (!IsEmpty(f))
-                                inventory[f] -= 1;
+                                Inventory[f] -= 1;
                             else
                                 throw new Exception($"{f} is empty");
                         }
@@ -88,7 +70,7 @@ namespace VendingMachine
                     {
                         if (action == RackAction.Add)
                         {
-                            inventory.Add(f, i);
+                            Inventory.Add(f, i);
                         }
                         else
                         {
@@ -123,19 +105,19 @@ namespace VendingMachine
         }
         public bool IsAmountSufficient()
         {
-            return this.amountSpent >= this.price;
+            return this.amountSpent >= this.Price;
         }
 
         public int Balance()
         {
-            return this.price - this.amountSpent;
+            return this.Price - this.amountSpent;
         }
 
         private bool IsFull(SodaFlavor flavor)
         {
-            if (this.inventory.TryGetValue(flavor, out int stock))
+            if (this.Inventory.TryGetValue(flavor, out int stock))
             {
-                return stock >= this.maxInventory ? true : false;
+                return stock >= this.MaxInventory ? true : false;
             }
             else
                 return false;
@@ -143,7 +125,7 @@ namespace VendingMachine
 
         private bool IsEmpty(SodaFlavor flavor)
         {
-            if (this.inventory.TryGetValue(flavor, out int stock))
+            if (this.Inventory.TryGetValue(flavor, out int stock))
             {
                 return stock > 0 ? false : true;
             }
@@ -154,15 +136,15 @@ namespace VendingMachine
         // Available soda flavors
         public IEnumerable<string> AvailableSodaFlavors()
         {
-            return this.inventory.Select(x => x.Key.ToString());
+            return this.Inventory.Select(x => x.Key.ToString());
         }
 
         // Write the state of vending machcine to debug location
         public void ShowVendingMachineStatus()
         {
-            foreach(var item in this.inventory)
+            foreach(var item in this.Inventory)
             {
-                Debug.WriteLine($"There are {item.Value} cans of {item.Key} soda available at a cost of {this.price} cents");
+                Debug.WriteLine($"There are {item.Value} cans of {item.Key} soda available at a cost of {this.Price} cents");
             }
         }
 
