@@ -14,7 +14,7 @@ namespace VendingMachine
 
             // Get the default values for project from configuration file
             var vendingMachine = new VendingMachine(int.Parse(config["Price"]),
-                                                    numberOfCans:int.Parse(config["MaxNumberOfCans"]));
+                                                    numberOfCans: int.Parse(config["MaxNumberOfCans"]));
 
             // show the contents of the vending machine in debug window
             vendingMachine.ShowVendingMachineStatus();
@@ -44,7 +44,7 @@ namespace VendingMachine
                 // pay for the soda
                 while (!vendingMachine.IsAmountSufficient())
                 {
-                    Console.Write($"Please insert {vendingMachine.Price} cents (type 'q' to quit): ");
+                    Console.Write($"Please insert {vendingMachine.PurchasePrice} cents (type 'q' to quit): ");
                     try
                     {
                         vendingMachine.GetEnteredAmount(Console.ReadLine());
@@ -65,7 +65,7 @@ namespace VendingMachine
                 // update the inventory
                 try
                 {
-                    vendingMachine.ManageInventory(RackAction.Remove, soda, 1);
+                    vendingMachine.ManageInventory(RackAction.RemoveACanOf, soda, 1);
                     var msg = vendingMachine.Balance() < 0 ? $"and {Math.Abs(vendingMachine.Balance())} cents change" : string.Empty;
                     Console.WriteLine($"Thanks. Here is your soda {msg}\n\n");
                 }
@@ -80,7 +80,7 @@ namespace VendingMachine
                         // Restock the selected soda
                         if (resp.Key == ConsoleKey.Y)
                         {
-                            vendingMachine.ManageInventory(RackAction.Add, soda,vendingMachine.MaxInventory);
+                            vendingMachine.ManageInventory(RackAction.AddACanOf, soda,vendingMachine.MaxInventory);
                             Console.WriteLine($"\nRestocked the {soda} soda...\n\n");
                         }
                         else
@@ -99,21 +99,6 @@ namespace VendingMachine
         {
             var configBuilder = new ConfigurationBuilder().AddJsonFile($"appsettings.json", true, true);
             return configBuilder;
-        }
-
-        void test(SodaFlavor s)
-        {
-      
-            switch (s)
-            {
-                case SodaFlavor.Regular:
-                    break;
-                case SodaFlavor.Orange:
-                    break;
-                case SodaFlavor.Lemon:
-                    break;
-            }
-
         }
     }
 }

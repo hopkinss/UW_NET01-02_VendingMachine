@@ -9,32 +9,51 @@ namespace VendingMachine.Tests
         [TestMethod]
         public void AddSodaConstructor()
         {
-            var vm = new VendingMachine(50, SodaFlavor.Lemon, RackAction.Add, 2);
-            Assert.AreEqual(vm.Inventory[SodaFlavor.Lemon],2);
+            var vm = new VendingMachine(50, SodaFlavor.Lemon, RackAction.AddACanOf, 2);
+            Assert.AreEqual(vm.CanRack[SodaFlavor.Lemon],2);
         }
 
         [TestMethod]
         public void AddRemoveSoda()
         {
-            var vm = new VendingMachine(50, SodaFlavor.Lemon, RackAction.Add, 3);
-            vm.ManageInventory(RackAction.Remove, SodaFlavor.Lemon, 1);
-            Assert.AreEqual(vm.Inventory[SodaFlavor.Lemon], 2);
-            vm.ManageInventory(RackAction.Add, SodaFlavor.Lemon, 1);
-            Assert.AreEqual(vm.Inventory[SodaFlavor.Lemon], 3);
+            var vm = new VendingMachine(50, SodaFlavor.Lemon, RackAction.AddACanOf, 3);
+            vm.ManageInventory(RackAction.RemoveACanOf, SodaFlavor.Lemon, 1);
+            Assert.AreEqual(vm.CanRack[SodaFlavor.Lemon], 2);
+            vm.ManageInventory(RackAction.AddACanOf, SodaFlavor.Lemon, 1);
+            Assert.AreEqual(vm.CanRack[SodaFlavor.Lemon], 3);
+        }
+
+        [TestMethod]
+        public void RemoveAndFillCanRack()
+        {
+            var vm = new VendingMachine(50, SodaFlavor.Lemon, RackAction.AddACanOf, 3);
+
+            foreach (SodaFlavor soda in SodaFlavor.GetValues(typeof(SodaFlavor)))
+            {
+                vm.EmptyCanRackOf(soda);
+                Assert.AreEqual(vm.CanRack[soda], 0);
+            }
+
+            vm.FillTheCanRack();
+            foreach (SodaFlavor soda in SodaFlavor.GetValues(typeof(SodaFlavor)))
+            {
+                Assert.AreEqual(vm.CanRack[soda], vm.MaxInventory);
+            }
+
         }
 
         [TestMethod]
         public void AddOverMaxInventory()
         {
-            var vm = new VendingMachine(50, SodaFlavor.Lemon, RackAction.Add, 3);
-            Assert.ThrowsException<Exception>(() => vm.ManageInventory(RackAction.Add,SodaFlavor.Lemon,1));
+            var vm = new VendingMachine(50, SodaFlavor.Lemon, RackAction.AddACanOf, 3);
+            Assert.ThrowsException<Exception>(() => vm.ManageInventory(RackAction.AddACanOf,SodaFlavor.Lemon,1));
         }
 
         [TestMethod]
         public void NoInventoryAvailable()
         {
-            var vm = new VendingMachine(50, SodaFlavor.Lemon, RackAction.Add, 1);
-            Assert.ThrowsException<Exception>(() => vm.ManageInventory(RackAction.Remove, SodaFlavor.Lemon, 2));
+            var vm = new VendingMachine(50, SodaFlavor.Lemon, RackAction.AddACanOf, 1);
+            Assert.ThrowsException<Exception>(() => vm.ManageInventory(RackAction.RemoveACanOf, SodaFlavor.Lemon, 2));
         }
 
         // tests from Exercise01  -
@@ -43,7 +62,7 @@ namespace VendingMachine.Tests
         {
             var vm = new VendingMachine(55);
 
-            Assert.AreEqual(vm.Price, 55);
+            Assert.AreEqual(vm.PurchasePrice, 55);
         }
 
         [TestMethod]
