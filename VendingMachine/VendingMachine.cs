@@ -124,6 +124,11 @@ namespace VendingMachine
             return this.amountSpent >= this.PurchasePrice;
         }
 
+        public void ResetBalance()
+        {
+            this.amountSpent = 0;
+        }
+
         public int Balance()
         {
             return this.PurchasePrice - this.amountSpent;

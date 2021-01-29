@@ -67,6 +67,7 @@ namespace VendingMachine
                 {
                     vendingMachine.ManageInventory(RackAction.RemoveACanOf, soda, 1);
                     var msg = vendingMachine.Balance() < 0 ? $"and {Math.Abs(vendingMachine.Balance())} cents change" : string.Empty;
+                    vendingMachine.ResetBalance();
                     Console.WriteLine($"Thanks. Here is your soda {msg}\n\n");
                 }
                 catch (Exception ex)
